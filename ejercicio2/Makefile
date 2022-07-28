@@ -1,0 +1,30 @@
+CC = gcc.exe
+CFLAGS = -ansi -pedantic -Wall
+LFLAGS = -Wall
+OBJS = main.o input.o my_string.o card_utils.o
+
+
+ejercicio2:$(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o ejercicio2
+	
+main.o: main.c types.h input.h
+	$(CC) $(CFLAGS) -c main.c
+	
+input.o: input.c input.h
+	$(CC) $(CFLAGS) -c input.c
+
+my_string.o: my_string.c my_string.h
+	$(CC) $(CFLAGS) -c my_string.c
+	
+card_utils.o: card_utils.c card_utils.h
+	$(CC) $(CFLAGS) -c card_utils.c
+
+test_my_string.o: test_my_string.c my_string.h
+	$(CC) $(CFLAGS) -c test_my_string.c
+	
+test_my_string: test_my_string.o my_string.o
+	$(CC) $(LFLAGS) test_my_string.o my_string.o -o test_my_string
+
+
+clean:
+	rm *.exe *.o
