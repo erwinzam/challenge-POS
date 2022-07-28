@@ -8,6 +8,7 @@ typedef char* string;
 
 typedef enum{
 			OK,
+
 			ERROR_MEMORIA_NO_DISPONIBLE,
 			ERROR_PUNTERO_NULO,
 			

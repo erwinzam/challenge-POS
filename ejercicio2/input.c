@@ -139,6 +139,13 @@ status_t reconocer_num_tarjeta_input(const input_t* entrada,
 	return OK;
 }
 
+status_t imprimir_label_input(input_t* entrada,FILE* archivo_salida)
+{
+	imprimir_string(entrada->label,archivo_salida);
+	
+	return OK;
+}
+
 
 status_t leer_cod_seguridad_input(input_t* entrada)
 {

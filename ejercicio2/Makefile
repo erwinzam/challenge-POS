@@ -1,7 +1,7 @@
 CC = gcc.exe
 CFLAGS = -ansi -pedantic -Wall
 LFLAGS = -Wall
-OBJS = main.o input.o my_string.o card_utils.o
+OBJS = main.o input.o my_string.o card_utils.o messages.o
 
 
 ejercicio2:$(OBJS)
@@ -18,6 +18,9 @@ my_string.o: my_string.c my_string.h
 	
 card_utils.o: card_utils.c card_utils.h
 	$(CC) $(CFLAGS) -c card_utils.c
+	
+messages.o: messages.c messages.h types.h
+	$(CC) $(CFLAGS) -c messages.c
 
 test_my_string.o: test_my_string.c my_string.h
 	$(CC) $(CFLAGS) -c test_my_string.c
