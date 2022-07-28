@@ -16,16 +16,20 @@ bool_t esta_num_tarjeta_en_range(string_t* num_tarjeta,range_t* rango)
 	
 	rango_inf = (size_t)strtoul(rango->rangeLow,&temp,10);
 	rango_sup = (size_t)strtoul(rango->rangeHigh,&temp,10);
+
+	
 	
 	
 	memset(range_str, '\0', sizeof(range_str));
 	strncpy(range_str, num_tarjeta->str,RANGE_LENGTH_STR);
+
 	
 	rango_tarjeta = (size_t)strtoul(range_str,&temp,10);
 	
+	
 	if(rango_tarjeta < rango_inf || rango_tarjeta > rango_sup)
 		return FALSE;
-		
+	
 	if(num_tarjeta->size != rango->len)
 		return FALSE;
 		

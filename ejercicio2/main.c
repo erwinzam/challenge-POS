@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "types.h"
 #include "input.h"
+#include "messages.h"
 
 
 int main(void)
