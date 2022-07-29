@@ -16,6 +16,9 @@
 #define ERR_MSG_TARJETA_NO_SE_ENCUENTRA_DENTRO_DE_TARJETAS_VALIDAS "Error: Tarjeta no soportada."
 #define ERR_MSG_CODIGO_DE_SEGURIDAD_INVALIDO "Error: Codigo de seguridad invalido."
 
+#define ERR_MSG_DE_COMUNICACION "ERROR DE COMUNICACIÓN"
+
+
 status_t mostrar_msg_error(status_t);
 
 #endif

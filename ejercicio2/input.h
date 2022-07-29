@@ -14,6 +14,11 @@
 
 #define MAX_TIMEOUT_MILLISECONDS 5000
 
+#define RESPONSE_MSG_TYPE "0210"
+
+#define RESPONSE_MSG_TRANSACCION_APROBADA "00"
+
+
 typedef struct{
 	
 	string_t* monto;
@@ -33,6 +38,8 @@ status_t leer_cod_seguridad_input(input_t* entrada);
 status_t procesar_input(const input_t* entrada);
 
 status_t crear_request_msg(const input_t* entrada,string* request_msg);
+
+bool_t es_response_aprobada(string response);
 
 status_t destruir_input(input_t** entrada);
 

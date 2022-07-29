@@ -184,7 +184,7 @@ status_t crear_request_msg(const input_t* entrada,string* request_msg)
 	p_str_src = strchr( (entrada->monto)->str , ',');
 	p_str_dest = strchr( monto_str , ',');
 	strcpy(p_str_dest,p_str_src + 1);
-	puts(monto_str);
+	
 	
 	monto = strtoul(monto_str,&temp,10);
 	
@@ -194,9 +194,22 @@ status_t crear_request_msg(const input_t* entrada,string* request_msg)
 											(unsigned int) monto,
 											(entrada->cod_seguridad)->str);
 	
-	puts(*request_msg);
 	
 	return OK;
+}
+
+bool_t es_response_aprobada(string response)
+{
+							   
+	char response_esperado[20];
+	
+	sprintf(response_esperado,"%s%s",RESPONSE_MSG_TYPE,
+									 RESPONSE_MSG_TRANSACCION_APROBADA);	
+	
+	if(strcmp(response,response_esperado))
+		return FALSE;
+	
+	return TRUE;
 }
 
 status_t procesar_input(const input_t* entrada)
@@ -209,6 +222,8 @@ status_t procesar_input(const input_t* entrada)
 	
 	unsigned char response[50];
 	
+	int socket_status;
+	
 	
 	socket_h = socketCreate();
 	
@@ -218,7 +233,19 @@ status_t procesar_input(const input_t* entrada)
 	
 	socketWrite(socket_h,(unsigned char*)request_msg);
 	
-	socketRead(socket_h,response,MAX_TIMEOUT_MILLISECONDS);
+	socket_status=socketRead(socket_h,response,MAX_TIMEOUT_MILLISECONDS);
+	
+	if(socket_status == -1 || socket_status != strlen((string)response) )
+	{
+		socketClose(socket_h);
+		free(request_msg);
+		return ERROR_DE_COMUNICACION;
+	}
+	
+	if(es_response_aprobada((string)response) == FALSE)
+		puts("NO APROBADA");
+	else
+		puts("APROBADA");
 	
 	socketClose(socket_h);
 	

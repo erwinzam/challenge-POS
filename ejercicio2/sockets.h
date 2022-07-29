@@ -1,6 +1,8 @@
 #ifndef SOCKETS__H
 #define SOCKETS__H
 #include <stdio.h>
+#include "input.h"
+#include "types.h"
 
 int socketCreate();
 int socketConnect(int handle, const char *ip, unsigned short port);

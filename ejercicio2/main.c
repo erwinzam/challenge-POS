@@ -16,7 +16,6 @@ int main(void)
 	FILE *archivo_salida = stdout;
 	
 	crear_input(&entrada);
-	
 	puts("Ingrese monto:");
 	
 	if( ( st = leer_monto_input(entrada) ) != OK )
@@ -35,6 +34,14 @@ int main(void)
 		return 1;
 	}
 	
+	puts("Ingrese codigo de segurida");
+	if( ( st = leer_cod_seguridad_input(entrada) ) != OK )
+	{
+		mostrar_msg_error(st);
+		destruir_input(&entrada);
+		return 1;
+	}
+	
 	if( ( st = reconocer_num_tarjeta_input(entrada,f_name_ranges,f_name_cards) ) != OK )
 	{
 		mostrar_msg_error(st);
@@ -44,7 +51,12 @@ int main(void)
 	
 	imprimir_label_input(entrada,archivo_salida);
 	
-	procesar_input(entrada);
+	if( ( st = procesar_input(entrada) ) != OK)
+	{
+		mostrar_msg_error(st);
+		destruir_input(&entrada);
+		return 1;
+	}
 	
 	
 	destruir_input(&entrada);
