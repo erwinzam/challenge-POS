@@ -17,13 +17,29 @@ int socketConnect(int handle, const char *ip, unsigned short port)
 
 int socketRead(int handle, unsigned char *data, int maxTimeout)
 {
+	#ifdef RESPONSE_APROBADO
+	
 	sprintf((string)data,"%s%s",RESPONSE_MSG_TYPE,
 							    RESPONSE_MSG_TRANSACCION_APROBADA);
-							    
-	/*sprintf((string)data,"%s%s",RESPONSE_MSG_TYPE,"01");*/
+	#endif
+	
+	#ifdef RESPONSE_NO_APROBADO	
+				    
+	sprintf((string)data,"%s%s",RESPONSE_MSG_TYPE,"01");
+	
+	#endif
+	
+	#ifdef SOCKET_SUCESS_READING
 	
 	return strlen((string)data);
-	/*return -1; */
+	
+	#endif
+	
+	#ifdef SOCKET_FAILED_READING
+	
+	return -1; 
+	
+	#endif
 }
 
 int socketWrite(int handle, const unsigned char* data)
