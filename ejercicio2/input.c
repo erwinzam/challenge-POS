@@ -4,6 +4,7 @@
 #include "my_string.h"
 #include "input.h"
 #include "card_utils.h"
+#include "sockets.h"
 
 
 status_t crear_input(input_t** entrada)
@@ -159,6 +160,73 @@ status_t leer_cod_seguridad_input(input_t* entrada)
 	return OK;
 }
 
+status_t crear_request_msg(const input_t* entrada,string* request_msg)
+{
+	char monto_str[MONTO_STR_LEN + 2];
+	
+	char* p_str_src;
+	char* p_str_dest;
+	char* temp;
+	
+	size_t monto;
+	
+	size_t msg_str_len = MENSAJE_STR_LEN +
+				         (entrada->num_tarjeta)->size +
+						 MONTO_STR_LEN +
+						 (entrada->cod_seguridad)->size;
+				     
+	if( ( *request_msg = (string) malloc( (msg_str_len + 1) * sizeof(char) ) ) == NULL )
+		return ERROR_MEMORIA_NO_DISPONIBLE;
+		
+	memset(*request_msg,'\0',msg_str_len + 1 );
+	
+	strcpy(monto_str, (entrada->monto)->str);
+	p_str_src = strchr( (entrada->monto)->str , ',');
+	p_str_dest = strchr( monto_str , ',');
+	strcpy(p_str_dest,p_str_src + 1);
+	puts(monto_str);
+	
+	monto = strtoul(monto_str,&temp,10);
+	
+	sprintf(*request_msg,"%s%s%02u%012u%s", REQUEST_MSG,
+											(entrada->num_tarjeta)->str,
+											(unsigned int) (entrada->num_tarjeta)->size,
+											(unsigned int) monto,
+											(entrada->cod_seguridad)->str);
+	
+	puts(*request_msg);
+	
+	return OK;
+}
+
+status_t procesar_input(const input_t* entrada)
+{
+	int socket_h;
+	string request_msg;
+	
+	char ip[] = IP_ADRRES;
+	unsigned short port = PORT_NUMBER;
+	
+	unsigned char response[50];
+	
+	
+	socket_h = socketCreate();
+	
+	socketConnect(socket_h,ip,port);
+	
+	crear_request_msg(entrada,&request_msg);
+	
+	socketWrite(socket_h,(unsigned char*)request_msg);
+	
+	socketRead(socket_h,response,MAX_TIMEOUT_MILLISECONDS);
+	
+	socketClose(socket_h);
+	
+	free(request_msg);
+	return OK;
+}
+
+
 
 status_t destruir_input(input_t** entrada)
 {
@@ -189,3 +257,5 @@ status_t destruir_input(input_t** entrada)
 	
 	return OK;
 }
+
+

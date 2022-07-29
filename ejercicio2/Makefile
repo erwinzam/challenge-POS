@@ -1,7 +1,7 @@
 CC = gcc.exe
 CFLAGS = -ansi -pedantic -Wall
 LFLAGS = -Wall
-OBJS = main.o input.o my_string.o card_utils.o messages.o
+OBJS = main.o input.o my_string.o card_utils.o messages.o sockets.o
 
 
 ejercicio2:$(OBJS) generate_ranges_cards
@@ -21,6 +21,9 @@ card_utils.o: card_utils.c card_utils.h
 	
 messages.o: messages.c messages.h types.h
 	$(CC) $(CFLAGS) -c messages.c
+	
+sockets.o: sockets.c sockets.h
+	$(CC) $(CFLAGS) -c sockets.c
 
 test_my_string.o: test_my_string.c my_string.h
 	$(CC) $(CFLAGS) -c test_my_string.c

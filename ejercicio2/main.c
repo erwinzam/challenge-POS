@@ -44,6 +44,7 @@ int main(void)
 	
 	imprimir_label_input(entrada,archivo_salida);
 	
+	procesar_input(entrada);
 	
 	
 	destruir_input(&entrada);
